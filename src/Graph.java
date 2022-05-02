@@ -12,6 +12,7 @@ public class Graph {
 	
 	
 	public Map<Vertex, Set<Edge>> adjList = new HashMap<Vertex, Set<Edge>>();
+	public Map<String, String> addresses = new HashMap<String, String>();
 	
 	public Graph(String filename) throws Exception {
 		enum ReadModes { NONE, NODE, EDGE };
@@ -36,7 +37,9 @@ public class Graph {
 			else if (line.contains("</")) mode = ReadModes.NONE;
 			
 			if (mode == ReadModes.NODE) {
-				adjList.put(new Vertex(line), new TreeSet<Edge>());
+				Vertex v = new Vertex(line);
+				adjList.put(v, new TreeSet<Edge>());
+				addresses.put(v.getSymbol(), v.getData());
 			} else if (mode == ReadModes.EDGE) {
 				String key = line.split("\t")[0];
 				adjList.get(new Vertex(key, "")).add(
@@ -50,6 +53,16 @@ public class Graph {
 	
 	public String ToString() {
 		// returns all vertices and costs (both dependent on the two static Booleans above 
-		return "";
+		String ret = "";
+		Set<Vertex> keys = adjList.keySet();
+		for (Vertex key : keys) {
+			ret += key.getSymbol() + (returnAddress ? " Address: " + addresses.get(key.getSymbol()) : "") + "\n";
+			for (Edge edge : adjList.get(key)) {
+				ret += "  " + edge.getDestination() + " Cost: " +
+						(useDistCost ? edge.getDistanceCost() : edge.getTimeCost()) + 
+						(returnAddress ? " Address: " + addresses.get(key.getSymbol()) : "") + "\n";
+			}
+		}
+		return ret;
 	}
 }

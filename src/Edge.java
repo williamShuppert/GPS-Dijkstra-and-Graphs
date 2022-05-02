@@ -14,12 +14,9 @@ public class Edge implements Comparable<Edge> {
 
 	public Edge(String line) throws Exception {
 		String[] args = line.split("\t");
-		
-//		if (args.length == 5) // remove source vertex from line
+
 		args = line.substring(line.split("\t")[0].length()).trim().split("\t");
-//		if (args.length != 4)
-//			throw new Exception("edge contained incorrect amount of data. Had: " + args.length + " Expected: 4");
-		
+
 		destination = args[0];
 		timeCost = Integer.parseInt(args[1]);
 		distanceCost = Integer.parseInt(args[2]);

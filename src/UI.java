@@ -66,7 +66,6 @@ public class UI extends JPanel {
 		//============================================================ West Panel
 		JPanel westJPanel = new JPanel();
 		westJPanel.setLayout(new GridLayout(0, 1));
-//		westJPanel.setLayout(new GridBagLayout());
 				
 		// start list and it's scroll panel
 		JList<Vertex> startJList = new JList<Vertex>(data);
@@ -107,8 +106,13 @@ public class UI extends JPanel {
 				if (p == null)
 					pathJTextArea.setText("No possible path");
 				else {
-					String output = (Graph.useDistCost ? "Distance" : "Time") + " Cost: " + p.getCost();
-					output += "\nPath: " + p.getPathString();
+					String output = (Graph.useDistCost ? "Distance" : "Time") + " Cost: " + p.getCost() + "\nPath: ";
+					if (Graph.returnAddress) {
+						String[] symbols = p.getPathString().split("-");
+						for (String symbol : symbols)
+							output += "\n  " + symbol + " - " + graph.addresses.get(symbol);
+					} else
+						output += p.getPathString();
 					pathJTextArea.setText(output);
 				}
 			}
@@ -117,6 +121,21 @@ public class UI extends JPanel {
 		// labels for controls
 		JLabel costJLabel = new JLabel("Cost:");
 		JLabel avoidJLabel = new JLabel("Avoid:");
+		
+		// return addresses checkbox
+		JCheckBox returnAddressesJCheckBox = new JCheckBox("return addresses");
+		
+		returnAddressesJCheckBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				Graph.returnAddress = returnAddressesJCheckBox.isSelected();
+			}
+		});
+		
+		// return addresses container
+		JPanel returnAddressesCheckBoxContainerJPanel = new JPanel();
+		returnAddressesCheckBoxContainerJPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		returnAddressesCheckBoxContainerJPanel.add(returnAddressesJCheckBox);
 		
 		// cost radio buttons
 		final String distJRadioButtonCommand = "use distance";
@@ -173,6 +192,7 @@ public class UI extends JPanel {
 		settingsJPanel.setLayout(new GridLayout(0, 1));
 		settingsJPanel.add(costRadioButtonContainerJPanel);
 		settingsJPanel.add(avoidCheckboxContainerJPanel);
+		settingsJPanel.add(returnAddressesCheckBoxContainerJPanel);
 		
 		// control container
 		JPanel controlsJPanel = new JPanel();
@@ -181,23 +201,6 @@ public class UI extends JPanel {
 		controlsJPanel.add(calcPathBtn, BorderLayout.SOUTH);
 		
 		// add components to west panel
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.anchor = GridBagConstraints.FIRST_LINE_START;
-//		c.weightx = 2;
-//		c.weighty = 2;
-//		c.gridx = 0;
-//		c.gridy = 0;
-//		westJPanel.add(scrollPanelContainer, c);
-//		c.weightx = 1;
-//		c.weighty = 1;
-//		c.gridx = 0;
-//		c.gridy = 1;
-//		westJPanel.add(controlsJPanel, c);
-//		c.weightx = 1;
-//		c.weighty = 1;
-//		c.gridx = 0;
-//		c.gridy = 2;
-//		westJPanel.add(pathJTextArea, c);
 		westJPanel.add(scrollPanelContainer);
 		westJPanel.add(controlsJPanel);
 		westJPanel.add(pathJTextArea);
