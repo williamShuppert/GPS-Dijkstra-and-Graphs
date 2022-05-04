@@ -1,17 +1,18 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Graph {
 	public static boolean useDistCost = true;
 	public static boolean avoidHighways = false;
-	public static boolean returnAddress;
+	public static boolean returnAddress = true;
+	public static boolean avoidSpeedTraps = false;
 	
-	
-	public Map<Vertex, Set<Edge>> adjList = new HashMap<Vertex, Set<Edge>>();
+	public Map<Vertex, List<Edge>> adjList = new HashMap<Vertex, List<Edge>>();
 	public Map<String, String> addresses = new HashMap<String, String>();
 	
 	public Graph(String filename) throws Exception {
@@ -38,7 +39,7 @@ public class Graph {
 			
 			if (mode == ReadModes.NODE) {
 				Vertex v = new Vertex(line);
-				adjList.put(v, new TreeSet<Edge>());
+				adjList.put(v, new ArrayList<Edge>());
 				addresses.put(v.getSymbol(), v.getData());
 			} else if (mode == ReadModes.EDGE) {
 				String key = line.split("\t")[0];

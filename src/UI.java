@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -131,6 +130,7 @@ public class UI extends JPanel {
 				Graph.returnAddress = returnAddressesJCheckBox.isSelected();
 			}
 		});
+		returnAddressesJCheckBox.setSelected(true);
 		
 		// return addresses container
 		JPanel returnAddressesCheckBoxContainerJPanel = new JPanel();
@@ -167,6 +167,7 @@ public class UI extends JPanel {
 		
 		// avoid checkboxes
 		JCheckBox avoidHighwayJCheckbox = new JCheckBox("Highways");
+		JCheckBox avoidSpeedTrapsJCheckbox = new JCheckBox("Speed Traps");
 		
 		ItemListener avoidItemListener = new ItemListener() {
 			@Override
@@ -175,16 +176,20 @@ public class UI extends JPanel {
 				
 				if (source == avoidHighwayJCheckbox) {
 					Graph.avoidHighways = avoidHighwayJCheckbox.isSelected();
+				} else if (source == avoidSpeedTrapsJCheckbox) {
+					Graph.avoidSpeedTraps = avoidSpeedTrapsJCheckbox.isSelected();
 				}
 			}
 		};
 		
 		avoidHighwayJCheckbox.addItemListener(avoidItemListener);
+		avoidSpeedTrapsJCheckbox.addItemListener(avoidItemListener);
 		
 		// avoid checkbox panel container
 		JPanel avoidCheckboxContainerJPanel = new JPanel();
 		avoidCheckboxContainerJPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		avoidCheckboxContainerJPanel.add(avoidJLabel);
+		avoidCheckboxContainerJPanel.add(avoidSpeedTrapsJCheckbox);
 		avoidCheckboxContainerJPanel.add(avoidHighwayJCheckbox);
 		
 		// settings container

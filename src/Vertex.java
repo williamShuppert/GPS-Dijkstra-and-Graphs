@@ -8,9 +8,8 @@ public class Vertex implements Comparable<Vertex> {
 		this.data = data;
 	}
 	
-	public Vertex(String line) throws Exception {
+	public Vertex(String line) {
 		String[] args = line.split("\t");
-//		if (args.length != 2) throw new Exception("line contained more than two items: " + line);
 		symbol = args[0];
 		data = args[1];
 	}
